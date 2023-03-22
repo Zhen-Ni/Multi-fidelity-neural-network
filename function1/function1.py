@@ -95,8 +95,8 @@ def main():
     fig, ax = plt.subplots()
     ax.plot(x, y_hi, label='$y_H$', color='black')
     ax.plot(x, y_lo, label='$y_L$', color='black', linestyle='dashed')
-    ax.scatter(x_hi, y_hi_star, color='red', linewidth='2', marker='x', label='high-fidelity training data')
-    ax.scatter(x_lo, y_lo_star, color='', edgecolors='blue', marker='o', label='low-fidelity training data')
+    ax.scatter(x_hi, y_hi_star, color='red', linewidth=2, marker='x', label='high-fidelity training data')
+    ax.scatter(x_lo, y_lo_star, color='None', edgecolors='blue', marker='o', label='low-fidelity training data')
     ax.set(xlabel='x', ylabel='y')
     ax.set_ylim([-15, 30])
     ax.legend()
@@ -169,7 +169,7 @@ def main():
     model4.apply(weights_init)
     optimizer2 = optim.SGD([{'params': model3.parameters(), 'weight_decay': 0.01},
                              {'params': model_h.parameters()},
-                             {'params': model4.parameters(), 'weight_decay': 0.01}], lr=5e-3, momentum=0.9)
+                             {'params': model4.parameters(), 'weight_decay': 0.01}], lr=1e-3, momentum=0.9)
     nIter2 = 200000
     x_lo_r = torch.from_numpy(x_lo).float()
     x_lo_r.requires_grad_()

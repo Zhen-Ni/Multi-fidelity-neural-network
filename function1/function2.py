@@ -85,8 +85,8 @@ def main():
     fig, ax = plt.subplots()
     ax.plot(x, y_hi, label='$y_H$', color='black')
     ax.plot(x, y_lo, label='$y_L$', color='black', linestyle='dashed')
-    ax.scatter(x_hi, y_hi_star, color='red', linewidth='2', marker='x', label='high-fidelity training data')
-    ax.scatter(x_lo, y_lo_star, color='', edgecolors='blue', marker='o', label='low-fidelity training data')
+    ax.scatter(x_hi, y_hi_star, color='red', linewidth=2, marker='x', label='high-fidelity training data')
+    ax.scatter(x_lo, y_lo_star, color='None', edgecolors='blue', marker='o', label='low-fidelity training data')
     ax.set(xlabel='x', ylabel='y')
     ax.legend()
     plt.show()
@@ -120,78 +120,78 @@ def main():
     ax2.scatter(x_hi, y_hi_star, marker='x', color='red', linewidth=2)
     ax2.legend()
     plt.show()
-    # model_h = NN1(1, 20, 4, 1)
-    # model_h.apply(weights_init)
-    # optimizer = optim.Adam(model_h.parameters(), lr=1e-3)
-    # loss_value = 1
-    # x_lo_r = torch.from_numpy(x_lo).float()
-    # x_lo_r.requires_grad_()
-    # it = 0
-    # while loss_value > 1e-4:
-    #     pred_h = model_h(x_lo_r)
-    #     grads = autograd.grad(outputs=pred_h, inputs=x_lo_r,
-    #                           grad_outputs=torch.ones_like(pred_h),
-    #                           create_graph=True, retain_graph=True, only_inputs=True)[0]
-    #     loss = torch.mean(torch.square(pred_h - torch.from_numpy(y_lo_star).float())) + \
-    #            torch.mean(torch.sum(torch.square(grads - torch.from_numpy(y_lo_star_prime).float()), 1, keepdim=True))
-    #
-    #     optimizer.zero_grad()
-    #     loss.backward()
-    #     optimizer.step()
-    #     loss_value = loss.item()
-    #     if it % 50 == 0:
-    #         print('It:', it, 'Loss', loss.item())
-    #     it = it + 1
-    # nn_pred_h = model_h(torch.from_numpy(x).float())
-    # fig3, ax3 = plt.subplots()
-    # line = ax3.plot(x, nn_pred_h.detach().numpy(), label='DNN though LF', color='darkviolet')
-    # line[0].set_dashes([2, 2, 4, 2])  # 2pt line, 2pt break, 4pt line, 2pt break
-    # ax3.plot(x, y_lo, label='$Exact$', color='black')
-    # ax3.scatter(x_lo, y_lo_star, marker='x', color='red', linewidth=2)
-    # ax3.legend()
-    # plt.show()
-    #
-    # alpha = torch.tensor([0.5])
-    # model3 = NN1(2, 20, 4, 1)
-    # model4 = NN2(2, 10, 2, 1)
-    # model3.apply(weights_init)
-    # model4.apply(weights_init)
-    # optimizer2 = optim.AdamW([{'params': model3.parameters(), 'weight_decay': 0.01},
-    #                          {'params': model_h.parameters()},
-    #                          {'params': model4.parameters(), 'weight_decay': 0.01}], lr=1e-4)
-    # nIter2 = 100000
-    # x_lo_r = torch.from_numpy(x_lo).float()
-    # x_lo_r.requires_grad_()
-    # loss2_value = 1
-    # it = 0
-    # while loss2_value > 3e-5 and it < nIter2:
-    #     pred_h = model_h(x_lo_r)
-    #     grads = autograd.grad(outputs=pred_h, inputs=x_lo_r,
-    #                           grad_outputs=torch.ones_like(pred_h),
-    #                           create_graph=True, retain_graph=True, only_inputs=True)[0]
-    #     loss3 = torch.mean(torch.square(pred_h - torch.from_numpy(y_lo_star).float())) + \
-    #             torch.mean(torch.sum(torch.square(grads - torch.from_numpy(y_lo_star_prime).float()), 1, keepdim=True))
-    #
-    #     pred_2h = model_h(torch.from_numpy(x_hi).float())
-    #     pred_2 = model3(torch.cat((torch.from_numpy(x_hi).float(), pred_2h), 1)) + \
-    #              model4(torch.cat((torch.from_numpy(x_hi).float(), pred_2h), 1))
-    #     loss2 = torch.mean(torch.square(pred_2 - torch.from_numpy(y_hi_star).float())) + loss3
-    #     loss2_value = loss2.item()
-    #     optimizer2.zero_grad()
-    #     loss2.backward()
-    #     optimizer2.step()
-    #     if it % 50 == 0:
-    #         print('It:', it, 'Loss:', loss2.item())
-    #     it = it + 1
-    # xx_lo = model_h(torch.from_numpy(x).float())
-    # xx_high = model3(torch.cat((torch.from_numpy(x).float(), xx_lo), 1)) + \
-    #           model4(torch.cat((torch.from_numpy(x).float(), xx_lo), 1))
-    # print(alpha)
-    # fig4, ax4 = plt.subplots()
-    # ax4.plot(x, xx_high.detach().numpy(), label='DNN though multi-fidelity model', linestyle='--', color='darkviolet')
-    # ax4.plot(x, y_hi, label='$Exact$', color='black')
-    # plt.legend()
-    # plt.show()
+    model_h = NN1(1, 20, 4, 1)
+    model_h.apply(weights_init)
+    optimizer = optim.Adam(model_h.parameters(), lr=1e-3)
+    loss_value = 1
+    x_lo_r = torch.from_numpy(x_lo).float()
+    x_lo_r.requires_grad_()
+    it = 0
+    while loss_value > 1e-4:
+        pred_h = model_h(x_lo_r)
+        grads = autograd.grad(outputs=pred_h, inputs=x_lo_r,
+                              grad_outputs=torch.ones_like(pred_h),
+                              create_graph=True, retain_graph=True, only_inputs=True)[0]
+        loss = torch.mean(torch.square(pred_h - torch.from_numpy(y_lo_star).float())) + \
+               torch.mean(torch.sum(torch.square(grads - torch.from_numpy(y_lo_star_prime).float()), 1, keepdim=True))
+    
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        loss_value = loss.item()
+        if it % 50 == 0:
+            print('It:', it, 'Loss', loss.item())
+        it = it + 1
+    nn_pred_h = model_h(torch.from_numpy(x).float())
+    fig3, ax3 = plt.subplots()
+    line = ax3.plot(x, nn_pred_h.detach().numpy(), label='DNN though LF', color='darkviolet')
+    line[0].set_dashes([2, 2, 4, 2])  # 2pt line, 2pt break, 4pt line, 2pt break
+    ax3.plot(x, y_lo, label='$Exact$', color='black')
+    ax3.scatter(x_lo, y_lo_star, marker='x', color='red', linewidth=2)
+    ax3.legend()
+    plt.show()
+    
+    alpha = torch.tensor([0.5])
+    model3 = NN1(2, 20, 4, 1)
+    model4 = NN2(2, 10, 2, 1)
+    model3.apply(weights_init)
+    model4.apply(weights_init)
+    optimizer2 = optim.AdamW([{'params': model3.parameters(), 'weight_decay': 0.01},
+                             {'params': model_h.parameters()},
+                             {'params': model4.parameters(), 'weight_decay': 0.01}], lr=1e-4)
+    nIter2 = 100000
+    x_lo_r = torch.from_numpy(x_lo).float()
+    x_lo_r.requires_grad_()
+    loss2_value = 1
+    it = 0
+    while loss2_value > 3e-5 and it < nIter2:
+        pred_h = model_h(x_lo_r)
+        grads = autograd.grad(outputs=pred_h, inputs=x_lo_r,
+                              grad_outputs=torch.ones_like(pred_h),
+                              create_graph=True, retain_graph=True, only_inputs=True)[0]
+        loss3 = torch.mean(torch.square(pred_h - torch.from_numpy(y_lo_star).float())) + \
+                torch.mean(torch.sum(torch.square(grads - torch.from_numpy(y_lo_star_prime).float()), 1, keepdim=True))
+    
+        pred_2h = model_h(torch.from_numpy(x_hi).float())
+        pred_2 = model3(torch.cat((torch.from_numpy(x_hi).float(), pred_2h), 1)) + \
+                 model4(torch.cat((torch.from_numpy(x_hi).float(), pred_2h), 1))
+        loss2 = torch.mean(torch.square(pred_2 - torch.from_numpy(y_hi_star).float())) + loss3
+        loss2_value = loss2.item()
+        optimizer2.zero_grad()
+        loss2.backward()
+        optimizer2.step()
+        if it % 50 == 0:
+            print('It:', it, 'Loss:', loss2.item())
+        it = it + 1
+    xx_lo = model_h(torch.from_numpy(x).float())
+    xx_high = model3(torch.cat((torch.from_numpy(x).float(), xx_lo), 1)) + \
+              model4(torch.cat((torch.from_numpy(x).float(), xx_lo), 1))
+    print(alpha)
+    fig4, ax4 = plt.subplots()
+    ax4.plot(x, xx_high.detach().numpy(), label='DNN though multi-fidelity model', linestyle='--', color='darkviolet')
+    ax4.plot(x, y_hi, label='$Exact$', color='black')
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':
